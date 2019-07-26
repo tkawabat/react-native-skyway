@@ -24,6 +24,9 @@ import io.skyway.Peer.Peer;
 import io.skyway.Peer.PeerCredential;
 import io.skyway.Peer.PeerError;
 import io.skyway.Peer.PeerOption;
+import io.skyway.Peer.Room;
+import io.skyway.Peer.RoomDataMessage;
+import io.skyway.Peer.RoomOption;
 
 
 
@@ -39,6 +42,7 @@ public class SkyWayPeer {
   private MediaConstraints constraints;
 
   private Peer peer;
+  private Room room;
   private MediaStream	localStream;
   private MediaStream	remoteStream;
   private MediaConnection	mediaConnection;
@@ -335,6 +339,100 @@ public class SkyWayPeer {
     closeLocalStream();
     closeRemoteStream();
     closeMediaConnection();
+  }
+
+  public void joinRoom(String roomId) {
+    if (peer == null) {
+      return;
+    }
+
+    if (localStream == null) {
+      openLocalStream();
+    }
+
+    RoomOption option = new RoomOption();
+    option.mode = RoomOption.RoomModeEnum.SFU;
+    option.stream = localStream;
+    room = peer.joinRoom(roomId, option);
+
+    room.on(Room.RoomEventEnum.OPEN, new OnCallback() {
+        @Override
+        public void onCallback(Object object) {
+            if (!(object instanceof String)) return;
+
+            String roomName = (String)object;
+            Log.i(TAG, "Enter Room: " + roomName);
+        }
+    });
+
+    room.on(Room.RoomEventEnum.CLOSE, new OnCallback() {
+        @Override
+        public void onCallback(Object object) {
+            String roomName = (String)object;
+            Log.i(TAG, "Leave Room: " + roomName);
+
+            // Unset callbacks
+            room.on(Room.RoomEventEnum.OPEN, null);
+            room.on(Room.RoomEventEnum.CLOSE, null);
+            room.on(Room.RoomEventEnum.ERROR, null);
+            room.on(Room.RoomEventEnum.PEER_JOIN, null);
+            room.on(Room.RoomEventEnum.PEER_LEAVE, null);
+            room.on(Room.RoomEventEnum.STREAM, null);
+            room.on(Room.RoomEventEnum.REMOVE_STREAM, null);
+
+            room = null;
+        }
+    });
+
+    room.on(Room.RoomEventEnum.ERROR, new OnCallback()    {
+        @Override
+        public void onCallback(Object object) {
+            PeerError error = (PeerError) object;
+            Log.d(TAG, "RoomEventEnum.ERROR:" + error);
+        }
+    });
+
+    room.on(Room.RoomEventEnum.PEER_JOIN, new OnCallback()    {
+        @Override
+        public void onCallback(Object object) {
+            Log.d(TAG, "RoomEventEnum.PEER_JOIN:");
+
+            if (!(object instanceof String)) return;
+
+            final String peerId = (String)object;
+            Log.i(TAG, "Join Room: " + peerId);
+        }
+    });
+    room.on(Room.RoomEventEnum.PEER_LEAVE, new OnCallback() {
+        @Override
+        public void onCallback(Object object) {
+            Log.d(TAG, "RoomEventEnum.PEER_LEAVE:");
+
+            if (!(object instanceof String)) return;
+
+            String peerId = (String)object;
+            Log.i(TAG, "Leave Room: " + peerId);
+        }
+    });
+    room.on(Room.RoomEventEnum.DATA, new OnCallback() {
+        @Override
+        public void onCallback(Object object) {
+            Log.d(TAG, "RoomEventEnum.DATA:");
+
+            if (!(object instanceof RoomDataMessage)) return;
+
+            RoomDataMessage msg = (RoomDataMessage)object;
+            //data.received = new Date();
+            //data.peerId = msg.src;
+            //if (msg.data instanceof String)    {
+            //    data.message = (String)msg.data;
+            //}
+        }
+    });
+
+    if (mediaConnection != null) {
+      this.setMediaCallbacks();
+    }
   }
 
   public void switchCamera() {

@@ -157,6 +157,21 @@ public class SkyWayPeerManagerModule extends ReactContextBaseJavaModule implemen
   }
 
   @ReactMethod
+  public void joinRoom(final String peerId, final String roomId) {
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        SkyWayPeer peer = peers.get(peerId);
+        if (peer == null) {
+          return;
+        }
+
+        peer.joinRoom(roomId);
+      }
+    });
+  }
+
+  @ReactMethod
   public void switchCamera(final String peerId) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override

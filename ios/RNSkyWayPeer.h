@@ -2,7 +2,8 @@
 #define RNSkyWayPeer_h
 
 #import <React/RCTBridgeModule.h>
-#import <SkyWay/SKWPeer.h>
+//#import <SkyWay/SKWPeer.h>
+#import "SKWPeer.h"
 #import "RNSkyWayPeerDelegate.h"
 
 typedef NS_ENUM (NSUInteger, RNSkyWayPeerStatus) {
@@ -27,10 +28,12 @@ typedef NS_ENUM (NSUInteger, RNSkyWayMediaConnectionStatus) {
 @property (nonatomic, strong) SKWMediaStream *localStream;
 @property (nonatomic, strong) SKWMediaStream *remoteStream;
 @property (nonatomic, strong) SKWMediaConnection *mediaConnection;
+@property (nonatomic, strong) SKWSFURoom* sfuRoom;
 @property (nonatomic, assign) RNSkyWayPeerStatus peerStatus;
 @property (nonatomic, assign) RNSkyWayMediaConnectionStatus mediaConnectionStatus;
 
 @property (nonatomic, strong) NSHashTable *delegates;
+@property(nonatomic) IBOutlet UITextField*  roomNameField;
 
 - (instancetype) init __attribute__((unavailable("init is not available")));
 - (instancetype) initWithPeerId:(NSString *)peerId options: (NSDictionary *)options constraints: (NSDictionary *)constraints;
@@ -40,6 +43,7 @@ typedef NS_ENUM (NSUInteger, RNSkyWayMediaConnectionStatus) {
 - (void) call:(NSString *)peerId;
 - (void) hangup;
 - (void) answer;
+- (void) joinRoom:(NSString *)roomId;
 - (void) switchCamera;
 - (void) addDelegate: (id<RNSkyWayPeerDelegate>) delegate;
 - (void) removeDelegate: (id<RNSkyWayPeerDelegate>) delegate;
