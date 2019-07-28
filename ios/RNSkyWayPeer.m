@@ -235,7 +235,6 @@
     [_sfuRoom on:SKW_ROOM_EVENT_OPEN callback:^(NSObject* arg) {
         NSString* roomName = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_OPEN: %@", roomName);
-        [weakSelf notifyMediaConnectionOpenDelegate];
     }];
     [_sfuRoom on:SKW_ROOM_EVENT_CLOSE callback:^(NSObject* arg) {
         NSString* roomName = (NSString*)arg;
@@ -554,16 +553,6 @@
         if ([delegete conformsToProtocol:@protocol(RNSkyWayPeerDelegate)]) {
             if ([delegete respondsToSelector:@selector(onMediaConnectionStatusChange:)]) {
                 [delegete onMediaConnectionStatusChange:self];
-            }
-        }
-    }
-}
-
-- (void) notifyRoomOpenDelegate {
-    for (id<RNSkyWayPeerDelegate> delegete in self.delegates) {
-        if ([delegete conformsToProtocol:@protocol(RNSkyWayPeerDelegate)]) {
-            if ([delegete respondsToSelector:@selector(onRoomOpen:)]) {
-                [delegete onRoomOpen:self];
             }
         }
     }
