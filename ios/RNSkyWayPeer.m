@@ -229,27 +229,32 @@
     option.stream = self.localStream;
     _sfuRoom = (SKWSFURoom*)[_peer joinRoomWithName:roomId options:option];
 
+    __weak RNSkyWayPeer *weakSelf = self;
+
     //
     // Set callbacks for ROOM_EVENTs
     //
     [_sfuRoom on:SKW_ROOM_EVENT_OPEN callback:^(NSObject* arg) {
         NSString* roomName = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_OPEN: %@", roomName);
-        [weakSelf notifyMediaConnectionOpenDelegate];
+        [weakSelf notifyRoomOpenDelegate];
     }];
     [_sfuRoom on:SKW_ROOM_EVENT_CLOSE callback:^(NSObject* arg) {
         NSString* roomName = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_CLOSE: %@", roomName);
         [self->_sfuRoom offAll];
         self->_sfuRoom = nil;
+        [weakSelf notifyRoomCloseDelegate];
     }];
     [_sfuRoom on:SKW_ROOM_EVENT_PEER_JOIN callback:^(NSObject* arg) {
         NSString* peerId_ = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_PEER_JOIN: %@", peerId_);
+        [weakSelf notifyRoomPeerJoinDelegate];
     }];
     [_sfuRoom on:SKW_ROOM_EVENT_PEER_LEAVE callback:^(NSObject* arg) {
         NSString* peerId_ = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_PEER_LEAVE: %@", peerId_);
+        [weakSelf notifyRoomPeerLeaveDelegate];
     }];
     [_sfuRoom on:SKW_ROOM_EVENT_DATA callback:^(NSObject* arg) {
         SKWRoomDataMessage* msg = (SKWRoomDataMessage*)arg;
@@ -257,8 +262,8 @@
         if ([msg.data isKindOfClass:[NSString class]]) {
             NSString* data = (NSString*)msg.data;
             NSLog(@"SKW_ROOM_EVENT_DATA(string): sender=%@, data=%@", peerId_, data);
-            //[self->_tableViewController setChatMessage:peerId_ text:data];
         }
+        [weakSelf notifyRoomDataDelegate];
     }];
 }
 
