@@ -36,6 +36,15 @@ export class Peer extends EventTarget {
     this.onMediaConnectionClose = this.onMediaConnectionClose.bind(this);
     this.onMediaConnectionError = this.onMediaConnectionError.bind(this);
 
+    this.onRoomOpen = this.onRoomOpen.bind(this);
+    this.onRoomPeerJoin = this.onRoomPeerJoin.bind(this);
+    this.onRoomPeerLeave = this.onRoomPeerLeave.bind(this);
+    this.onRoomLog = this.onRoomLog.bind(this);
+    this.onRoomStream = this.onRoomStream.bind(this);
+    this.onRoomData = this.onRoomData.bind(this);
+    this.onRoomClose = this.onRoomClose.bind(this);
+    this.onRoomError = this.onRoomError.bind(this);
+
     this._peerId = peerId;
     this._options = options || {};
     this._constraints = constraints || {};
@@ -222,6 +231,54 @@ export class Peer extends EventTarget {
     if (payload.peer.id === this.peerId) {
       this._mediaConnectionStatus = this.payload.status;
       this.dispatchEvent(new PeerEvent('media-connection-status-change'));
+    }
+  }
+
+  onRoomOpen(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-open'));
+    }
+  }
+
+  onRoomOpen(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-peer-join'));
+    }
+  }
+
+  onRoomOpen(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-peer-leave'));
+    }
+  }
+
+  onRoomOpen(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-log'));
+    }
+  }
+
+  onRoomOpen(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-stream'));
+    }
+  }
+
+  onRoomOpen(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-data'));
+    }
+  }
+
+  onRoomOpen(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-close'));
+    }
+  }
+
+  onRoomError(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-error'));
     }
   }
 

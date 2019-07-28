@@ -123,7 +123,15 @@ RCT_EXPORT_MODULE(SkyWayPeerManager);
              @"SkyWayMediaConnectionClose",
              @"SkyWayMediaConnectionError",
              @"SkyWayPeerStatusChange",
-             @"SkyWayMediaConnectionStatusChange"
+             @"SkyWayMediaConnectionStatusChange",
+             @"SkyWayRoomOpen",
+             @"SkyWayRoomPeerJoin",
+             @"SkyWayRoomPeerLeave",
+             @"SkyWayRoomLog",
+             @"SkyWayRoomStream",
+             @"SkyWayRoomData",
+             @"SkyWayRoomClose",
+             @"SkyWayRoomError"
              ];
 }
 
@@ -161,6 +169,37 @@ RCT_EXPORT_MODULE(SkyWayPeerManager);
     [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
 }
 
-
+-(void)onRoomOpen:(RNSkyWayPeer *)peer {
+    NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
+    [self sendEventWithName:@"SkyWayRoomOpen" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+}
+-(void)onRoomPeerJoin:(RNSkyWayPeer *)peer {
+    NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
+    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+}
+-(void)onRoomPeerLeave:(RNSkyWayPeer *)peer {
+    NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
+    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+}
+-(void)onRoomLog:(RNSkyWayPeer *)peer {
+    NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
+    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+}
+-(void)onRoomStream:(RNSkyWayPeer *)peer {
+    NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
+    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+}
+-(void)onRoomData:(RNSkyWayPeer *)peer {
+    NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
+    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+}
+-(void)onRoomClose:(RNSkyWayPeer *)peer {
+    NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
+    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+}
+-(void)onRoomError:(RNSkyWayPeer *)peer {
+    NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
+    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+}
 
 @end
