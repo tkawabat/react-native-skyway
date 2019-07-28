@@ -20,6 +20,15 @@
 -(void)onMediaConnectionError:(RNSkyWayPeer *)peer;
 -(void)onPeerStatusChange:(RNSkyWayPeer *)peer;
 -(void)onMediaConnectionStatusChange:(RNSkyWayPeer *)peer;
+-(void)onRoomOpen:(RNSkyWayPeer *)peer;
+-(void)onRoomPeerJoin:(RNSkyWayPeer *)peer;
+-(void)onRoomPeerLeave:(RNSkyWayPeer *)peer;
+-(void)onRoomLog:(RNSkyWayPeer *)peer;
+-(void)onRoomStream:(RNSkyWayPeer *)peer;
+-(void)onRoomRemoveStream:(RNSkyWayPeer *)peer;
+-(void)onRoomData:(RNSkyWayPeer *)peer;
+-(void)onRoomClose:(RNSkyWayPeer *)peer;
+-(void)onRoomError:(RNSkyWayPeer *)peer;
 
 @end
 

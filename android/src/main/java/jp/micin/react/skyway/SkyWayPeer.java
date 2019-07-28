@@ -362,33 +362,7 @@ public class SkyWayPeer {
 
             String roomName = (String)object;
             Log.i(TAG, "Enter Room: " + roomName);
-        }
-    });
-
-    room.on(Room.RoomEventEnum.CLOSE, new OnCallback() {
-        @Override
-        public void onCallback(Object object) {
-            String roomName = (String)object;
-            Log.i(TAG, "Leave Room: " + roomName);
-
-            // Unset callbacks
-            room.on(Room.RoomEventEnum.OPEN, null);
-            room.on(Room.RoomEventEnum.CLOSE, null);
-            room.on(Room.RoomEventEnum.ERROR, null);
-            room.on(Room.RoomEventEnum.PEER_JOIN, null);
-            room.on(Room.RoomEventEnum.PEER_LEAVE, null);
-            room.on(Room.RoomEventEnum.STREAM, null);
-            room.on(Room.RoomEventEnum.REMOVE_STREAM, null);
-
-            room = null;
-        }
-    });
-
-    room.on(Room.RoomEventEnum.ERROR, new OnCallback()    {
-        @Override
-        public void onCallback(Object object) {
-            PeerError error = (PeerError) object;
-            Log.d(TAG, "RoomEventEnum.ERROR:" + error);
+            notifyOnRoomOpen();
         }
     });
 
@@ -401,8 +375,10 @@ public class SkyWayPeer {
 
             final String peerId = (String)object;
             Log.i(TAG, "Join Room: " + peerId);
+            notifyOnRoomPeerJoin();
         }
     });
+
     room.on(Room.RoomEventEnum.PEER_LEAVE, new OnCallback() {
         @Override
         public void onCallback(Object object) {
@@ -412,27 +388,79 @@ public class SkyWayPeer {
 
             String peerId = (String)object;
             Log.i(TAG, "Leave Room: " + peerId);
+            notifyOnRoomPeerLeave();
         }
     });
+
+    room.on(Room.RoomEventEnum.LOG, new OnCallback() {
+        @Override
+        public void onCallback(Object object) {
+            if (!(object instanceof String)) return;
+            notifyOnRoomLog();
+        }
+    });
+
+    room.on(Room.RoomEventEnum.STREAM, new OnCallback() {
+        @Override
+        public void onCallback(Object object) {
+            if (!(object instanceof String)) return;
+            notifyOnRoomStream();
+        }
+    });
+
+    room.on(Room.RoomEventEnum.REMOVE_STREAM, new OnCallback() {
+        @Override
+        public void onCallback(Object object) {
+            if (!(object instanceof String)) return;
+            notifyOnRoomRemoveStream();
+        }
+    });
+
     room.on(Room.RoomEventEnum.DATA, new OnCallback() {
         @Override
         public void onCallback(Object object) {
-            Log.d(TAG, "RoomEventEnum.DATA:");
+            if (!(object instanceof String)) return;
+            notifyOnRoomData();
+        }
+    });
 
-            if (!(object instanceof RoomDataMessage)) return;
+    room.on(Room.RoomEventEnum.CLOSE, new OnCallback() {
+        @Override
+        public void onCallback(Object object) {
+            String roomName = (String)object;
+            Log.i(TAG, "Leave Room: " + roomName);
 
-            RoomDataMessage msg = (RoomDataMessage)object;
-            //data.received = new Date();
-            //data.peerId = msg.src;
-            //if (msg.data instanceof String)    {
-            //    data.message = (String)msg.data;
-            //}
+            // Unset callbacks
+            room.on(Room.RoomEventEnum.OPEN, null);
+            room.on(Room.RoomEventEnum.PEER_JOIN, null);
+            room.on(Room.RoomEventEnum.PEER_LEAVE, null);
+            room.on(Room.RoomEventEnum.LOG, null);
+            room.on(Room.RoomEventEnum.STREAM, null);
+            room.on(Room.RoomEventEnum.REMOVE_STREAM, null);
+            room.on(Room.RoomEventEnum.DATA, null);
+            room.on(Room.RoomEventEnum.CLOSE, null);
+            room.on(Room.RoomEventEnum.ERROR, null);
+
+            room = null;
+            notifyOnRoomClose();
+        }
+    });
+
+    room.on(Room.RoomEventEnum.ERROR, new OnCallback()    {
+        @Override
+        public void onCallback(Object object) {
+            PeerError error = (PeerError) object;
+            Log.d(TAG, "RoomEventEnum.ERROR:" + error);
+            notifyOnRoomError();
         }
     });
 
     if (mediaConnection != null) {
       this.setMediaCallbacks();
     }
+  }
+
+  public void leaveRoom() {
   }
 
   public void switchCamera() {
@@ -656,5 +684,58 @@ public class SkyWayPeer {
     }
   }
 
+  private void notifyOnRoomOpen() {
+    for (SkyWayPeerObserver observer: observers) {
+      observer.onRoomOpen(this);
+    }
+  }
+
+  private void notifyOnRoomPeerJoin() {
+    for (SkyWayPeerObserver observer: observers) {
+      observer.onRoomPeerJoin(this);
+    }
+  }
+
+  private void notifyOnRoomPeerLeave() {
+    for (SkyWayPeerObserver observer: observers) {
+      observer.onRoomPeerLeave(this);
+    }
+  }
+
+  private void notifyOnRoomLog() {
+    for (SkyWayPeerObserver observer: observers) {
+      observer.onRoomLog(this);
+    }
+  }
+
+  private void notifyOnRoomStream() {
+    for (SkyWayPeerObserver observer: observers) {
+      observer.onRoomOpen(this);
+    }
+  }
+
+  private void notifyOnRoomRemoveStream() {
+    for (SkyWayPeerObserver observer: observers) {
+      observer.onRoomRemoveStream(this);
+    }
+  }
+
+  private void notifyOnRoomData() {
+    for (SkyWayPeerObserver observer: observers) {
+      observer.onRoomData(this);
+    }
+  }
+
+  private void notifyOnRoomClose() {
+    for (SkyWayPeerObserver observer: observers) {
+      observer.onRoomClose(this);
+    }
+  }
+
+  private void notifyOnRoomError() {
+    for (SkyWayPeerObserver observer: observers) {
+      observer.onRoomError(this);
+    }
+  }
 
 }

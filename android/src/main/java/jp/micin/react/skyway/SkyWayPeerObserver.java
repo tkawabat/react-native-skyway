@@ -16,4 +16,13 @@ public interface SkyWayPeerObserver {
   void onMediaConnectionError(SkyWayPeer peer);
   void onPeerStatusChange(SkyWayPeer peer);
   void onMediaConnectionStatusChange(SkyWayPeer peer);
+  void onRoomOpen(SkyWayPeer peer);
+  void onRoomPeerJoin(SkyWayPeer peer);
+  void onRoomPeerLeave(SkyWayPeer peer);
+  void onRoomLog(SkyWayPeer peer);
+  void onRoomStream(SkyWayPeer peer);
+  void onRoomRemoveStream(SkyWayPeer peer);
+  void onRoomData(SkyWayPeer peer);
+  void onRoomClose(SkyWayPeer peer);
+  void onRoomError(SkyWayPeer peer);
 }

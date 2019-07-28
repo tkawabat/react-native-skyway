@@ -295,6 +295,89 @@ public class SkyWayPeerManagerModule extends ReactContextBaseJavaModule implemen
     sendEvent("SkyWayMediaConnectionStatusChange", params);
   }
 
+  @Override
+  public void onRoomOpen(SkyWayPeer peer) {
+    WritableMap peerParam = Arguments.createMap();
+    peerParam.putString("id", peer.getPeer().identity());
+    WritableMap params = Arguments.createMap();
+    params.putMap("peer", peerParam);
+
+    sendEvent("SkyWayRoomOpen", params);
+  }
+
+  @Override
+  public void onRoomPeerJoin(SkyWayPeer peer) {
+    WritableMap peerParam = Arguments.createMap();
+    peerParam.putString("id", peer.getPeer().identity());
+    WritableMap params = Arguments.createMap();
+    params.putMap("peer", peerParam);
+
+    sendEvent("SkyWayRoomPeerJoin", params);
+  }
+  @Override
+  public void onRoomPeerLeave(SkyWayPeer peer) {
+    WritableMap peerParam = Arguments.createMap();
+    peerParam.putString("id", peer.getPeer().identity());
+    WritableMap params = Arguments.createMap();
+    params.putMap("peer", peerParam);
+
+    sendEvent("SkyWayRoomPeerLeave", params);
+  }
+  @Override
+  public void onRoomLog(SkyWayPeer peer) {
+    WritableMap peerParam = Arguments.createMap();
+    peerParam.putString("id", peer.getPeer().identity());
+    WritableMap params = Arguments.createMap();
+    params.putMap("peer", peerParam);
+
+    sendEvent("SkyWayRoomLog", params);
+  }
+  @Override
+  public void onRoomStream(SkyWayPeer peer) {
+    WritableMap peerParam = Arguments.createMap();
+    peerParam.putString("id", peer.getPeer().identity());
+    WritableMap params = Arguments.createMap();
+    params.putMap("peer", peerParam);
+
+    sendEvent("SkyWayRoomStream", params);
+  }
+  @Override
+  public void onRoomRemoveStream(SkyWayPeer peer) {
+    WritableMap peerParam = Arguments.createMap();
+    peerParam.putString("id", peer.getPeer().identity());
+    WritableMap params = Arguments.createMap();
+    params.putMap("peer", peerParam);
+
+    sendEvent("SkyWayRoomRemoveStream", params);
+  }
+  @Override
+  public void onRoomData(SkyWayPeer peer) {
+    WritableMap peerParam = Arguments.createMap();
+    peerParam.putString("id", peer.getPeer().identity());
+    WritableMap params = Arguments.createMap();
+    params.putMap("peer", peerParam);
+
+    sendEvent("SkyWayRoomData", params);
+  }
+  @Override
+  public void onRoomClose(SkyWayPeer peer) {
+    WritableMap peerParam = Arguments.createMap();
+    peerParam.putString("id", peer.getPeer().identity());
+    WritableMap params = Arguments.createMap();
+    params.putMap("peer", peerParam);
+
+    sendEvent("SkyWayRoomClose", params);
+  }
+  @Override
+  public void onRoomError(SkyWayPeer peer) {
+    WritableMap peerParam = Arguments.createMap();
+    peerParam.putString("id", peer.getPeer().identity());
+    WritableMap params = Arguments.createMap();
+    params.putMap("peer", peerParam);
+
+    sendEvent("SkyWayRoomError", params);
+  }
+
   private void sendEvent(String eventName, WritableMap params) {
     reactContext
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)

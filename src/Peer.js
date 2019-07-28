@@ -36,6 +36,16 @@ export class Peer extends EventTarget {
     this.onMediaConnectionClose = this.onMediaConnectionClose.bind(this);
     this.onMediaConnectionError = this.onMediaConnectionError.bind(this);
 
+    this.onRoomOpen = this.onRoomOpen.bind(this);
+    this.onRoomPeerJoin = this.onRoomPeerJoin.bind(this);
+    this.onRoomPeerLeave = this.onRoomPeerLeave.bind(this);
+    this.onRoomLog = this.onRoomLog.bind(this);
+    this.onRoomStream = this.onRoomStream.bind(this);
+    this.onRoomRemoveStream = this.onRoomRemoveStream.bind(this);
+    this.onRoomData = this.onRoomData.bind(this);
+    this.onRoomClose = this.onRoomClose.bind(this);
+    this.onRoomError = this.onRoomError.bind(this);
+
     this._peerId = peerId;
     this._options = options || {};
     this._constraints = constraints || {};
@@ -87,6 +97,15 @@ export class Peer extends EventTarget {
     skyWayPeerEventEmitter.addListener('SkyWayMediaConnectionOpen', this.onMediaConnectionOpen);
     skyWayPeerEventEmitter.addListener('SkyWayMediaConnectionClose', this.onMediaConnectionClose);
     skyWayPeerEventEmitter.addListener('SkyWayMediaConnectionError', this.onMediaConnectionError);
+    skyWayPeerEventEmitter.addListener('SkyWayRoomOpen', this.onRoomOpen);
+    skyWayPeerEventEmitter.addListener('SkyWayRoomPeerJoin', this.onRoomPeerJoin);
+    skyWayPeerEventEmitter.addListener('SkyWayRoomPeerLeave', this.onRoomPeerLeave);
+    skyWayPeerEventEmitter.addListener('SkyWayRoomLog', this.onRoomLog);
+    skyWayPeerEventEmitter.addListener('SkyWayRoomStream', this.onRoomStream);
+    skyWayPeerEventEmitter.addListener('SkyWayRoomRemoveStream', this.onRoomRemoveStream);
+    skyWayPeerEventEmitter.addListener('SkyWayRoomData', this.onRoomData);
+    skyWayPeerEventEmitter.addListener('SkyWayRoomClose', this.onRoomClose);
+    skyWayPeerEventEmitter.addListener('SkyWayRoomError', this.onRoomError);
   }
 
   unlisten() {
@@ -98,6 +117,16 @@ export class Peer extends EventTarget {
     skyWayPeerEventEmitter.removeListener('SkyWayMediaConnectionOpen', this.onMediaConnectionOpen);
     skyWayPeerEventEmitter.removeListener('SkyWayMediaConnectionClose', this.onMediaConnectionClose);
     skyWayPeerEventEmitter.removeListener('SkyWayMediaConnectionError', this.onMediaConnectionError);
+    skyWayPeerEventEmitter.removeListener('SkyWayMediaConnectionError', this.onMediaConnectionError);
+    skyWayPeerEventEmitter.removeListener('SkyWayRoomOpen', this.onRoomOpen);
+    skyWayPeerEventEmitter.removeListener('SkyWayRoomPeerJoin', this.onRoomPeerJoin);
+    skyWayPeerEventEmitter.removeListener('SkyWayRoomPeerLeave', this.onRoomPeerLeave);
+    skyWayPeerEventEmitter.removeListener('SkyWayRoomLog', this.onRoomLog);
+    skyWayPeerEventEmitter.removeListener('SkyWayRoomStream', this.onRoomStream);
+    skyWayPeerEventEmitter.removeListener('SkyWayRoomRemoveStream', this.onRoomRemoveStream);
+    skyWayPeerEventEmitter.removeListener('SkyWayRoomData', this.onRoomData);
+    skyWayPeerEventEmitter.removeListener('SkyWayRoomClose', this.onRoomClose);
+    skyWayPeerEventEmitter.removeListener('SkyWayRoomError', this.onRoomError);
   }
 
   connect() {
@@ -222,6 +251,60 @@ export class Peer extends EventTarget {
     if (payload.peer.id === this.peerId) {
       this._mediaConnectionStatus = this.payload.status;
       this.dispatchEvent(new PeerEvent('media-connection-status-change'));
+    }
+  }
+
+  onRoomOpen(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-open'));
+    }
+  }
+
+  onRoomPeerJoin(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-peer-join'));
+    }
+  }
+
+  onRoomPeerLeave(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-peer-leave'));
+    }
+  }
+
+  onRoomLog(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-log'));
+    }
+  }
+
+  onRoomStream(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-stream'));
+    }
+  }
+
+  onRoomRemoveStream(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-remove-stream'));
+    }
+  }
+
+  onRoomData(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-data'));
+    }
+  }
+
+  onRoomClose(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-close'));
+    }
+  }
+
+  onRoomError(payload) {
+    if (payload.peer.id === this.peerId) {
+      this.dispatchEvent(new PeerEvent('room-error'));
     }
   }
 

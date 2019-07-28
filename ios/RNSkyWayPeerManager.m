@@ -123,7 +123,16 @@ RCT_EXPORT_MODULE(SkyWayPeerManager);
              @"SkyWayMediaConnectionClose",
              @"SkyWayMediaConnectionError",
              @"SkyWayPeerStatusChange",
-             @"SkyWayMediaConnectionStatusChange"
+             @"SkyWayMediaConnectionStatusChange",
+             @"SkyWayRoomOpen",
+             @"SkyWayRoomPeerJoin",
+             @"SkyWayRoomPeerLeave",
+             @"SkyWayRoomLog",
+             @"SkyWayRoomStream",
+             @"SkyWayRoomRemoveStream",
+             @"SkyWayRoomData",
+             @"SkyWayRoomClose",
+             @"SkyWayRoomError"
              ];
 }
 
@@ -161,6 +170,32 @@ RCT_EXPORT_MODULE(SkyWayPeerManager);
     [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
 }
 
-
+-(void)onRoomOpen:(RNSkyWayPeer *)peer {
+    [self sendEventWithName:@"SkyWayRoomOpen" body:@{@"peer": @{@"id": peer.peer.identity}}];
+}
+-(void)onRoomPeerJoin:(RNSkyWayPeer *)peer {
+    [self sendEventWithName:@"SkyWayRoomPeerJoin" body:@{@"peer": @{@"id": peer.peer.identity}}];
+}
+-(void)onRoomPeerLeave:(RNSkyWayPeer *)peer {
+    [self sendEventWithName:@"SkyWayRoomPeerLeave" body:@{@"peer": @{@"id": peer.peer.identity}}];
+}
+-(void)onRoomLog:(RNSkyWayPeer *)peer {
+    [self sendEventWithName:@"SkyWayRoomLog" body:@{@"peer": @{@"id": peer.peer.identity}}];
+}
+-(void)onRoomStream:(RNSkyWayPeer *)peer {
+    [self sendEventWithName:@"SkyWayRoomStream" body:@{@"peer": @{@"id": peer.peer.identity}}];
+}
+-(void)onRoomRemoveStream:(RNSkyWayPeer *)peer {
+    [self sendEventWithName:@"SkyWayRoomRemoveStream" body:@{@"peer": @{@"id": peer.peer.identity}}];
+}
+-(void)onRoomData:(RNSkyWayPeer *)peer {
+    [self sendEventWithName:@"SkyWayRoomData" body:@{@"peer": @{@"id": peer.peer.identity}}];
+}
+-(void)onRoomClose:(RNSkyWayPeer *)peer {
+    [self sendEventWithName:@"SkyWayRoomClose" body:@{@"peer": @{@"id": peer.peer.identity}}];
+}
+-(void)onRoomError:(RNSkyWayPeer *)peer {
+    [self sendEventWithName:@"SkyWayRoomError" body:@{@"peer": @{@"id": peer.peer.identity}}];
+}
 
 @end
