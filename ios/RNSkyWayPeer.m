@@ -246,17 +246,17 @@
         self->_sfuRoom = nil;
         [weakSelf notifyRoomCloseDelegate];
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_PEER_JOIN callback:^(NSObject* arg) {
+    [_sfuRoom on:SKW_ROOM_EVENT_PEER_JOIN callback:^(NSObject* arg1, NSObject* arg2) {
         NSString* peerId_ = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_PEER_JOIN: %@", peerId_);
         [weakSelf notifyRoomPeerJoinDelegate];
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_PEER_LEAVE callback:^(NSObject* arg) {
+    [_sfuRoom on:SKW_ROOM_EVENT_PEER_LEAVE callback:^(NSObject* arg1, NSObject* arg2) {
         NSString* peerId_ = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_PEER_LEAVE: %@", peerId_);
         [weakSelf notifyRoomPeerLeaveDelegate];
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_DATA callback:^(NSObject* arg) {
+    [_sfuRoom on:SKW_ROOM_EVENT_DATA callback:^(NSObject* arg1, NSObject* arg2) {
         SKWRoomDataMessage* msg = (SKWRoomDataMessage*)arg;
         NSString* peerId_ = msg.src;
         if ([msg.data isKindOfClass:[NSString class]]) {
@@ -264,6 +264,15 @@
             NSLog(@"SKW_ROOM_EVENT_DATA(string): sender=%@, data=%@", peerId_, data);
         }
         [weakSelf notifyRoomDataDelegate];
+    }];
+    [_sfuRoom on:SKW_ROOM_EVENT_LOG callback:^(NSObject* arg1, NSObject* arg2) {
+        [weakSelf notifyRoomLogDelegate];
+    }];
+    [_sfuRoom on:SKW_ROOM_EVENT_STREAM callback:^(NSObject* arg1, NSObject* arg2) {
+        [weakSelf notifyRoomStreamDelegate];
+    }];
+    [_sfuRoom on:SKW_ROOM_ERROR callback:^(NSObject* arg1, NSObject* arg2) {
+        [weakSelf notifyRoomErrorDelegate];
     }];
 }
 
@@ -574,6 +583,69 @@
     }
 }
 
+- (void) notifyRoomCloseDelegate {
+    for (id<RNSkyWayPeerDelegate> delegete in self.delegates) {
+        if ([delegete conformsToProtocol:@protocol(RNSkyWayPeerDelegate)]) {
+            if ([delegete respondsToSelector:@selector(onRoomClose:)]) {
+                [delegete onRoomClose:self];
+            }
+        }
+    }
+}
 
+- (void) notifyRoomPeerJoinDelegate {
+    for (id<RNSkyWayPeerDelegate> delegete in self.delegates) {
+        if ([delegete conformsToProtocol:@protocol(RNSkyWayPeerDelegate)]) {
+            if ([delegete respondsToSelector:@selector(onRoomPeerJoin:)]) {
+                [delegete onRoomPeerJoin:self];
+            }
+        }
+    }
+}
+- (void) notifyRoomPeerLeaveDelegate {
+    for (id<RNSkyWayPeerDelegate> delegete in self.delegates) {
+        if ([delegete conformsToProtocol:@protocol(RNSkyWayPeerDelegate)]) {
+            if ([delegete respondsToSelector:@selector(onRoomPeerLeave:)]) {
+                [delegete onRoomPeerLeave:self];
+            }
+        }
+    }
+}
+- (void) notifyRoomDataDelegate {
+    for (id<RNSkyWayPeerDelegate> delegete in self.delegates) {
+        if ([delegete conformsToProtocol:@protocol(RNSkyWayPeerDelegate)]) {
+            if ([delegete respondsToSelector:@selector(onRoomData:)]) {
+                [delegete onRoomData:self];
+            }
+        }
+    }
+}
+- (void) notifyRoomLogDelegate {
+    for (id<RNSkyWayPeerDelegate> delegete in self.delegates) {
+        if ([delegete conformsToProtocol:@protocol(RNSkyWayPeerDelegate)]) {
+            if ([delegete respondsToSelector:@selector(onRoomLog:)]) {
+                [delegete onRoomLog:self];
+            }
+        }
+    }
+}
+- (void) notifyRoomStreamDelegate {
+    for (id<RNSkyWayPeerDelegate> delegete in self.delegates) {
+        if ([delegete conformsToProtocol:@protocol(RNSkyWayPeerDelegate)]) {
+            if ([delegete respondsToSelector:@selector(onRoomStream:)]) {
+                [delegete onRoomStream:self];
+            }
+        }
+    }
+}
+- (void) notifyRoomErrorDelegate {
+    for (id<RNSkyWayPeerDelegate> delegete in self.delegates) {
+        if ([delegete conformsToProtocol:@protocol(RNSkyWayPeerDelegate)]) {
+            if ([delegete respondsToSelector:@selector(onRoomError:)]) {
+                [delegete onRoomError:self];
+            }
+        }
+    }
+}
 
 @end

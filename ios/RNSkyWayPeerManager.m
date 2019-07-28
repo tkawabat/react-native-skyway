@@ -175,31 +175,31 @@ RCT_EXPORT_MODULE(SkyWayPeerManager);
 }
 -(void)onRoomPeerJoin:(RNSkyWayPeer *)peer {
     NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
-    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+    [self sendEventWithName:@"SkyWayRoomPeerJoin" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
 }
 -(void)onRoomPeerLeave:(RNSkyWayPeer *)peer {
     NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
-    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+    [self sendEventWithName:@"SkyWayPeerLeave" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
 }
 -(void)onRoomLog:(RNSkyWayPeer *)peer {
     NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
-    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+    [self sendEventWithName:@"SkyWayRoomLog" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
 }
 -(void)onRoomStream:(RNSkyWayPeer *)peer {
     NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
-    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+    [self sendEventWithName:@"SkyWayRoomStream" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
 }
 -(void)onRoomData:(RNSkyWayPeer *)peer {
     NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
-    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+    [self sendEventWithName:@"SkyWayRoomData" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
 }
 -(void)onRoomClose:(RNSkyWayPeer *)peer {
     NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
-    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+    [self sendEventWithName:@"SkyWayRoomClose" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
 }
 -(void)onRoomError:(RNSkyWayPeer *)peer {
     NSNumber *status = [NSNumber numberWithInt: peer.mediaConnectionStatus];
-    [self sendEventWithName:@"SkyWayMediaConnectionStatusChange" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
+    [self sendEventWithName:@"SkyWayRoomError" body:@{@"peer": @{@"id": peer.peer.identity}, @"status": status}];
 }
 
 @end
