@@ -44,6 +44,7 @@ typedef NS_ENUM (NSUInteger, RNSkyWayMediaConnectionStatus) {
 - (void) hangup;
 - (void) answer;
 - (void) joinRoom:(NSString *)roomId;
+- (void) leaveRoom;
 - (void) switchCamera;
 - (void) addDelegate: (id<RNSkyWayPeerDelegate>) delegate;
 - (void) removeDelegate: (id<RNSkyWayPeerDelegate>) delegate;

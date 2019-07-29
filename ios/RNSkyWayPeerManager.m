@@ -98,6 +98,13 @@ RCT_EXPORT_METHOD(joinRoom:(nonnull NSString *)peerId
     [self.peers[peerId] joinRoom:roomId];
 }
 
+RCT_EXPORT_METHOD(leaveRoom:(nonnull NSString *)peerId)
+{
+    NSLog(@"RNSkyWayPeerManager leaveRoom");
+    
+    [self.peers[peerId] leaveRoom];
+}
+
 RCT_EXPORT_METHOD(switchCamera:(nonnull NSString *)peerId)
 {
     NSLog(@"RNSkyWayPeerManager switchCamera");

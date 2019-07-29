@@ -214,7 +214,7 @@
 }
 
 - (void)joinRoom:(NSString *)roomId {
-    if (self.peer == nil) {
+    if (nil == self.peer || nil != self.sfuRoom){
         return;
     }
     if (self.localStream == nil) {
@@ -227,50 +227,50 @@
     SKWRoomOption* option = [[SKWRoomOption alloc] init];
     option.mode = SKW_ROOM_MODE_SFU;
     option.stream = self.localStream;
-    _sfuRoom = (SKWSFURoom*)[_peer joinRoomWithName:roomId options:option];
+    self.sfuRoom = (SKWSFURoom*)[self.peer joinRoomWithName:roomId options:option];
 
     __weak RNSkyWayPeer *weakSelf = self;
 
     //
     // Set callbacks for ROOM_EVENTs
     //
-    [_sfuRoom on:SKW_ROOM_EVENT_OPEN callback:^(NSObject* arg) {
+    [self.sfuRoom on:SKW_ROOM_EVENT_OPEN callback:^(NSObject* arg) {
         NSString* roomName = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_OPEN: %@", roomName);
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf notifyRoomOpenDelegate];
         });
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_PEER_JOIN callback:^(NSObject* arg) {
+    [self.sfuRoom on:SKW_ROOM_EVENT_PEER_JOIN callback:^(NSObject* arg) {
         NSString* peerId_ = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_PEER_JOIN: %@", peerId_);
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf notifyRoomPeerJoinDelegate];
         });
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_PEER_LEAVE callback:^(NSObject* arg) {
+    [self.sfuRoom on:SKW_ROOM_EVENT_PEER_LEAVE callback:^(NSObject* arg) {
         NSString* peerId_ = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_PEER_LEAVE: %@", peerId_);
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf notifyRoomPeerLeaveDelegate];
         });
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_LOG callback:^(NSObject* arg) {
+    [self.sfuRoom on:SKW_ROOM_EVENT_LOG callback:^(NSObject* arg) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf notifyRoomLogDelegate];
         });
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_STREAM callback:^(NSObject* arg) {
+    [self.sfuRoom on:SKW_ROOM_EVENT_STREAM callback:^(NSObject* arg) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf notifyRoomStreamDelegate];
         });
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_REMOVE_STREAM callback:^(NSObject* arg) {
+    [self.sfuRoom on:SKW_ROOM_EVENT_REMOVE_STREAM callback:^(NSObject* arg) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf notifyRoomRemoveStreamDelegate];
         });
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_DATA callback:^(NSObject* arg) {
+    [self.sfuRoom on:SKW_ROOM_EVENT_DATA callback:^(NSObject* arg) {
         SKWRoomDataMessage* msg = (SKWRoomDataMessage*)arg;
         NSString* peerId_ = msg.src;
         if ([msg.data isKindOfClass:[NSString class]]) {
@@ -282,21 +282,28 @@
             [weakSelf notifyRoomDataDelegate];
         });
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_CLOSE callback:^(NSObject* arg) {
+    [self.sfuRoom on:SKW_ROOM_EVENT_CLOSE callback:^(NSObject* arg) {
         NSString* roomName = (NSString*)arg;
         NSLog(@"SKW_ROOM_EVENT_CLOSE: %@", roomName);
-        [self->_sfuRoom offAll];
-        self->_sfuRoom = nil;
+        [self.sfuRoom offAll];
+        self.sfuRoom = nil;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf notifyRoomCloseDelegate];
         });
     }];
-    [_sfuRoom on:SKW_ROOM_EVENT_ERROR callback:^(NSObject* arg) {
+    [self.sfuRoom on:SKW_ROOM_EVENT_ERROR callback:^(NSObject* arg) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf notifyRoomErrorDelegate];
         });
     }];
+}
+
+- (void)leaveRoom {
+    if (nil == self.peer || nil == self.sfuRoom){
+        return;
+    }
+    [self.sfuRoom close];
 }
 
 - (void)switchCamera {
@@ -426,12 +433,12 @@
         return;
     }
 
-    [_peer on:SKW_PEER_EVENT_OPEN callback:nil];
-    [_peer on:SKW_PEER_EVENT_CONNECTION callback:nil];
-    [_peer on:SKW_PEER_EVENT_CALL callback:nil];
-    [_peer on:SKW_PEER_EVENT_CLOSE callback:nil];
-    [_peer on:SKW_PEER_EVENT_DISCONNECTED callback:nil];
-    [_peer on:SKW_PEER_EVENT_ERROR callback:nil];
+    [self.peer on:SKW_PEER_EVENT_OPEN callback:nil];
+    [self.peer on:SKW_PEER_EVENT_CONNECTION callback:nil];
+    [self.peer on:SKW_PEER_EVENT_CALL callback:nil];
+    [self.peer on:SKW_PEER_EVENT_CLOSE callback:nil];
+    [self.peer on:SKW_PEER_EVENT_DISCONNECTED callback:nil];
+    [self.peer on:SKW_PEER_EVENT_ERROR callback:nil];
 }
 
 - (void)unsetMediaCallbacks {

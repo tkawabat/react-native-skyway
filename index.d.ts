@@ -64,6 +64,7 @@ declare namespace SkyWay {
     answer(): void;
     hangup(): void;
     joinRoom(roomId: roomId): void;
+    leaveRoom(): void;
     switchCamera(): void;
   }
 

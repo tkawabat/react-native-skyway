@@ -184,6 +184,14 @@ export class Peer extends EventTarget {
     SkyWayPeerManager.joinRoom(this.peerId, roomId);
   }
 
+  leaveRoom(roomId) {
+    if (this.disposed) {
+      return;
+    }
+
+    SkyWayPeerManager.leaveRoom(this.peerId);
+  }
+
   switchCamera() {
     if (this.disposed) {
       return;
