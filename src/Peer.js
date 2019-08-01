@@ -200,6 +200,15 @@ export class Peer extends EventTarget {
     SkyWayPeerManager.switchCamera(this.peerId);
   }
 
+  setLocalStreamStatus(status) {
+    if (this.disposed) {
+      return;
+    }
+
+    console.log(status);
+    SkyWayPeerManager.setLocalStreamStatus(this.peerId, status);
+  }
+
   onPeerOpen(payload) {
     if (payload.peer.id === this.peerId) {
       this.dispatchEvent(new PeerEvent('peer-open'));

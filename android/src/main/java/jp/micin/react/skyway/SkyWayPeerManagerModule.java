@@ -185,6 +185,7 @@ public class SkyWayPeerManagerModule extends ReactContextBaseJavaModule implemen
       }
     });
   }
+
   @ReactMethod
   public void switchCamera(final String peerId) {
     UiThreadUtil.runOnUiThread(new Runnable() {
@@ -196,6 +197,21 @@ public class SkyWayPeerManagerModule extends ReactContextBaseJavaModule implemen
         }
 
         peer.switchCamera();
+      }
+    });
+  }
+
+  @ReactMethod
+  public void setLocalStreamStatus(final String peerId, final boolean status) {
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        SkyWayPeer peer = peers.get(peerId);
+        if (peer == null) {
+          return;
+        }
+
+        peer.setLocalStreamStatus(status);
       }
     });
   }

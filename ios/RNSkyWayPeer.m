@@ -328,6 +328,16 @@
     }
 }
 
+- (void)setLocalStreamStatus:(BOOL *)status {
+    if (self.peer == nil) {
+        return;
+    }
+    if (self.localStream == nil) {
+        return;
+    }
+    [self.localStream setEnableAudioTrack:0 enable:status];
+}
+
 - (void) openLocalStream {
     if (self.peer == nil) {
         return;

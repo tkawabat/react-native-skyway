@@ -353,9 +353,9 @@ public class SkyWayPeer {
     RoomOption option = new RoomOption();
     option.mode = RoomOption.RoomModeEnum.SFU;
     option.stream = localStream;
-    this.room = peer.joinRoom(roomId, option);
+    room = peer.joinRoom(roomId, option);
 
-    this.room.on(Room.RoomEventEnum.OPEN, new OnCallback() {
+    room.on(Room.RoomEventEnum.OPEN, new OnCallback() {
         @Override
         public void onCallback(Object object) {
             if (!(object instanceof String)) return;
@@ -366,7 +366,7 @@ public class SkyWayPeer {
         }
     });
 
-    this.room.on(Room.RoomEventEnum.PEER_JOIN, new OnCallback()    {
+    room.on(Room.RoomEventEnum.PEER_JOIN, new OnCallback()    {
         @Override
         public void onCallback(Object object) {
             Log.d(TAG, "RoomEventEnum.PEER_JOIN:");
@@ -379,7 +379,7 @@ public class SkyWayPeer {
         }
     });
 
-    this.room.on(Room.RoomEventEnum.PEER_LEAVE, new OnCallback() {
+    room.on(Room.RoomEventEnum.PEER_LEAVE, new OnCallback() {
         @Override
         public void onCallback(Object object) {
             Log.d(TAG, "RoomEventEnum.PEER_LEAVE:");
@@ -392,7 +392,7 @@ public class SkyWayPeer {
         }
     });
 
-    this.room.on(Room.RoomEventEnum.LOG, new OnCallback() {
+    room.on(Room.RoomEventEnum.LOG, new OnCallback() {
         @Override
         public void onCallback(Object object) {
             if (!(object instanceof String)) return;
@@ -400,7 +400,7 @@ public class SkyWayPeer {
         }
     });
 
-    this.room.on(Room.RoomEventEnum.STREAM, new OnCallback() {
+    room.on(Room.RoomEventEnum.STREAM, new OnCallback() {
         @Override
         public void onCallback(Object object) {
             if (!(object instanceof String)) return;
@@ -408,7 +408,7 @@ public class SkyWayPeer {
         }
     });
 
-    this.room.on(Room.RoomEventEnum.REMOVE_STREAM, new OnCallback() {
+    room.on(Room.RoomEventEnum.REMOVE_STREAM, new OnCallback() {
         @Override
         public void onCallback(Object object) {
             if (!(object instanceof String)) return;
@@ -416,7 +416,7 @@ public class SkyWayPeer {
         }
     });
 
-    this.room.on(Room.RoomEventEnum.DATA, new OnCallback() {
+    room.on(Room.RoomEventEnum.DATA, new OnCallback() {
         @Override
         public void onCallback(Object object) {
             if (!(object instanceof String)) return;
@@ -424,29 +424,29 @@ public class SkyWayPeer {
         }
     });
 
-    this.room.on(Room.RoomEventEnum.CLOSE, new OnCallback() {
+    room.on(Room.RoomEventEnum.CLOSE, new OnCallback() {
         @Override
         public void onCallback(Object object) {
             String roomName = (String)object;
             Log.i(TAG, "Leave Room: " + roomName);
 
             // Unset callbacks
-            this.room.on(Room.RoomEventEnum.OPEN, null);
-            this.room.on(Room.RoomEventEnum.PEER_JOIN, null);
-            this.room.on(Room.RoomEventEnum.PEER_LEAVE, null);
-            this.room.on(Room.RoomEventEnum.LOG, null);
-            this.room.on(Room.RoomEventEnum.STREAM, null);
-            this.room.on(Room.RoomEventEnum.REMOVE_STREAM, null);
-            this.room.on(Room.RoomEventEnum.DATA, null);
-            this.room.on(Room.RoomEventEnum.CLOSE, null);
-            this.room.on(Room.RoomEventEnum.ERROR, null);
+            room.on(Room.RoomEventEnum.OPEN, null);
+            room.on(Room.RoomEventEnum.PEER_JOIN, null);
+            room.on(Room.RoomEventEnum.PEER_LEAVE, null);
+            room.on(Room.RoomEventEnum.LOG, null);
+            room.on(Room.RoomEventEnum.STREAM, null);
+            room.on(Room.RoomEventEnum.REMOVE_STREAM, null);
+            room.on(Room.RoomEventEnum.DATA, null);
+            room.on(Room.RoomEventEnum.CLOSE, null);
+            room.on(Room.RoomEventEnum.ERROR, null);
 
-            this.room = null;
+            room = null;
             notifyOnRoomClose();
         }
     });
 
-    this.room.on(Room.RoomEventEnum.ERROR, new OnCallback()    {
+    room.on(Room.RoomEventEnum.ERROR, new OnCallback()    {
         @Override
         public void onCallback(Object object) {
             PeerError error = (PeerError) object;
@@ -461,10 +461,10 @@ public class SkyWayPeer {
   }
 
   public void leaveRoom() {
-      if (null == this.peer || null == this.room) {
+      if (null == this.peer || null == room) {
           return;
       }
-      this.room.close();
+      room.close();
   }
 
   public void switchCamera() {
@@ -476,6 +476,17 @@ public class SkyWayPeer {
     }
 
     localStream.switchCamera();
+  }
+
+  public void setLocalStreamStatus(boolean status) {
+    if (peer == null) {
+      return;
+    }
+    if (localStream == null) {
+      return;
+    }
+
+    localStream.setEnableAudioTrack(0, status);
   }
 
   private void openLocalStream() {
@@ -490,7 +501,6 @@ public class SkyWayPeer {
 
     notifyOnLocalStreamOpen();
   }
-
 
   private void closeLocalStream() {
     if (localStream == null) {

@@ -112,6 +112,14 @@ RCT_EXPORT_METHOD(switchCamera:(nonnull NSString *)peerId)
     [self.peers[peerId] switchCamera];
 }
 
+RCT_EXPORT_METHOD(setLocalStreamStatus:(NSString *)peerId
+                 status:(BOOL *)status)
+{
+    NSLog(@"RNSkyWayPeerManager setLocalStreamStatus");
+
+    [self.peers[peerId] setLocalStreamStatus:status];
+}
+
 RCT_EXPORT_MODULE(SkyWayPeerManager);
 
 - (dispatch_queue_t)methodQueue
