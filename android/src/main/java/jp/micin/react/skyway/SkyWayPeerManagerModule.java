@@ -87,7 +87,7 @@ public class SkyWayPeerManagerModule extends ReactContextBaseJavaModule implemen
   }
 
   @ReactMethod
-  public void diconnect(final String peerId) {
+  public void disconnect(final String peerId) {
 
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
