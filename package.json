@@ -1,22 +1,52 @@
 {
-  "name": "react-native-skyway",
-  "version": "0.1.1",
+  "_args": [
+    [
+      "git+ssh://git@github.com/tkawabat/react-native-skyway.git#master",
+      "/Users/tune/git/act_arena"
+    ]
+  ],
+  "_from": "git+ssh://git@github.com/tkawabat/react-native-skyway.git#master",
+  "_id": "react-native-skyway@git+ssh://git@github.com/tkawabat/react-native-skyway.git#179c5f0e995256d6f8f19deffaa8409253838af4",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/react-native-skyway",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "git+ssh://git@github.com/tkawabat/react-native-skyway.git#master",
+    "rawSpec": "git+ssh://git@github.com/tkawabat/react-native-skyway.git#master",
+    "saveSpec": "git+ssh://git@github.com/tkawabat/react-native-skyway.git#master",
+    "fetchSpec": "ssh://git@github.com/tkawabat/react-native-skyway.git",
+    "gitCommittish": "master"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git+ssh://git@github.com/tkawabat/react-native-skyway.git#179c5f0e995256d6f8f19deffaa8409253838af4",
+  "_spec": "git+ssh://git@github.com/tkawabat/react-native-skyway.git#master",
+  "_where": "/Users/tune/git/act_arena",
+  "author": "",
+  "dependencies": {
+    "prop-types": "^15.6.0"
+  },
   "description": "React Native plugin for SkyWay",
   "homepage": "https://github.com/micin-jp/react-native-skyway",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "react-native"
   ],
-  "author": "",
   "license": "",
+  "main": "index.js",
+  "name": "react-native-skyway",
   "peerDependencies": {
     "react": "^16.0.0-alpha",
     "react-native": ">=0.46.0"
   },
-  "dependencies": {
-    "prop-types": "^15.6.0"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkawabat/react-native-skyway.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.1.1"
 }
