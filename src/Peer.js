@@ -205,7 +205,6 @@ export class Peer extends EventTarget {
       return;
     }
 
-    console.log(status);
     SkyWayPeerManager.setLocalStreamStatus(this.peerId, status);
   }
 
