@@ -249,6 +249,7 @@ public class SkyWayPeerManagerModule extends ReactContextBaseJavaModule implemen
   @Override
   public void onPeerDisconnected(SkyWayPeer peer) {
     WritableMap peerParam = Arguments.createMap();
+    if (peer == null || peer.getPeer() == null) return;
     peerParam.putString("id", peer.getPeer().identity());
     WritableMap params = Arguments.createMap();
     params.putMap("peer", peerParam);
