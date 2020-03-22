@@ -20,7 +20,7 @@ declare namespace SkyWay {
     authToken: string;
   }
 
-  export class MediaConstraints {
+  export interface MediaConstraints {
     cameraPosition?: CameraPosition;
     maxWidth?: number;
     minWidth?: number;
@@ -28,6 +28,8 @@ declare namespace SkyWay {
     minHeight?: number;
     maxFrameRate?: number;
     minFrameRate?: number;
+    videoFlag?: boolean;
+    audioFlag?: boolean;
   }
 
   export enum CameraPosition {
@@ -66,6 +68,7 @@ declare namespace SkyWay {
     joinRoom(roomId: roomId): void;
     leaveRoom(): void;
     switchCamera(): void;
+    setLocalStreamStatus(status:boolean): void;
   }
 
   interface LocalVideoProps {
