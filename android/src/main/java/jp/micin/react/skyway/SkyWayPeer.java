@@ -46,6 +46,7 @@ public class SkyWayPeer {
   private MediaStream	localStream;
   private MediaStream	remoteStream;
   private MediaConnection	mediaConnection;
+  private int audioTrackNo;
 
   private SkyWayPeerStatus peerStatus;
 
@@ -486,7 +487,7 @@ public class SkyWayPeer {
       return;
     }
 
-    localStream.setEnableAudioTrack(0, status);
+    localStream.setEnableAudioTrack(localStream.getAudioTracks() -1, status);
   }
 
   private void openLocalStream() {
@@ -498,6 +499,12 @@ public class SkyWayPeer {
     Navigator.initialize(peer);
     localStream = Navigator.getUserMedia(constraints);
     Navigator.terminate();
+
+    for (int i = localStream.getAudioTracks() - 1; i >= 0; i--) {
+      if (localStream.getEnableAudioTrack(i)) {
+        audioTrackNo = i;
+      }
+    }
 
     notifyOnLocalStreamOpen();
   }
