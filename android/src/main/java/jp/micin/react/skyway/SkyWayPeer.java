@@ -748,6 +748,9 @@ public class SkyWayPeer {
   }
 
   private void notifyOnRoomClose() {
+    if (peer == null) {
+        return;
+    }
     for (SkyWayPeerObserver observer: observers) {
       observer.onRoomClose(this);
     }

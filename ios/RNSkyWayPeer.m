@@ -684,6 +684,9 @@
 }
 
 - (void) notifyRoomCloseDelegate {
+    if (self.peer == nil) {
+        return;
+    }
     for (id<RNSkyWayPeerDelegate> delegete in self.delegates) {
         if ([delegete conformsToProtocol:@protocol(RNSkyWayPeerDelegate)]) {
             if ([delegete respondsToSelector:@selector(onRoomClose:)]) {

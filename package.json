@@ -6,7 +6,7 @@
     ]
   ],
   "_from": "git+ssh://git@github.com/tkawabat/react-native-skyway.git#master",
-  "_id": "react-native-skyway@git+ssh://git@github.com/tkawabat/react-native-skyway.git#179c5f0e995256d6f8f19deffaa8409253838af4",
+  "_id": "react-native-skyway@git+ssh://git@github.com/tkawabat/react-native-skyway.git#e6b0623db0d1cc81ebfb671d5b90cae530291c17",
   "_inBundle": false,
   "_integrity": "",
   "_location": "/react-native-skyway",
@@ -22,10 +22,13 @@
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "git+ssh://git@github.com/tkawabat/react-native-skyway.git#179c5f0e995256d6f8f19deffaa8409253838af4",
+  "_resolved": "git+ssh://git@github.com/tkawabat/react-native-skyway.git#e6b0623db0d1cc81ebfb671d5b90cae530291c17",
   "_spec": "git+ssh://git@github.com/tkawabat/react-native-skyway.git#master",
   "_where": "/Users/tune/git/act_arena",
   "author": "",
+  "bugs": {
+    "url": "https://github.com/tkawabat/react-native-skyway/issues"
+  },
   "dependencies": {
     "prop-types": "^15.6.0"
   },
